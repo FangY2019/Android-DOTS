@@ -13,9 +13,10 @@ import androidx.annotation.Nullable;
 import com.dots.entity.PointT;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
-public class DotsView extends View {
+public class BoardView extends View {
     //dots
     private final int DOTS_COUNT = 6;
     private final int DOTS_SIZE = 100;
@@ -24,6 +25,8 @@ public class DotsView extends View {
 
     private ArrayList<ArrayList<Integer>> board;
     private int moves;
+    private boolean status;
+
     private int scores;
     private boolean removable;
 
@@ -32,7 +35,6 @@ public class DotsView extends View {
     private Paint mPaint;
 
     //the orientation of remove dots
-//    private boolean mOrientationH = false;
     private boolean mHorizontal;
     private boolean mVertical;
 
@@ -43,30 +45,25 @@ public class DotsView extends View {
     private boolean mTouchEnable;
 
 
-//    //if call the animator
-//    private boolean havePressAniming = false;
-//
-//    public interface OnDotClickListener{
-//        void onDotClickChange(View v, float[][] clickableAreas);
-//    }
 
 
-    public DotsView(Context context) {
+
+    public BoardView(Context context) {
         super(context);
         init(null);
     }
 
-    public DotsView(Context context, @Nullable AttributeSet attrs) {
+    public BoardView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         init(attrs);
     }
 
-    public DotsView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public BoardView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(attrs);
     }
 
-//    public DotsView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+//    public BoardView(Context context, @Nullable AttributeSet attrs, int defStyleAttr, int defStyleRes) {
 //        super(context, attrs, defStyleAttr, defStyleRes);
 //        init(attrs);
 //    }
@@ -75,7 +72,7 @@ public class DotsView extends View {
         clickableAreas = new int[DOTS_COUNT * DOTS_COUNT][2];
         mPaint = new Paint();
         board = new ArrayList<ArrayList<Integer>>();
-        moves = 6;
+        moves = 0;
         scores = 0;
         for (int i = 0; i < DOTS_COUNT; i++) {
             ArrayList<Integer> list = new ArrayList<Integer>();
@@ -90,10 +87,21 @@ public class DotsView extends View {
         return board.get(j).get(DOTS_COUNT - 1 - i);
     }
 
-    public boolean isRemovable(PointT startP, PointT endP) {
+    public boolean remove(PointT startP, PointT endP) {
         if (inSideOfView(startP) && inSideOfView(endP)) {
             if(validateConnective(startP, endP)){
-                markColor(startP, endP);
+                int color = markColor(startP, endP);
+                int removeSize = 0;
+                for(int i = 0; i < DOTS_COUNT; i++){
+                    for(int j = 0; j < DOTS_COUNT; j++){
+                        if(board.get(i).get(j) == Color.GRAY){
+                            removeSize++;
+                        }
+                    }
+                    board.get(i).removeAll(Arrays.asList(Color.GRAY));
+                }
+                moves++;
+                scores += removeSize;
                 return true;
             }
         }
@@ -103,12 +111,12 @@ public class DotsView extends View {
     }
 
     public void updateView() {
-//        board.get(0).set(0, Color.GRAY);
-//        board.get(0).set(1, Color.GRAY);
-//        board.get(0).set(2, Color.GRAY);
+        for(int i = 0; i < DOTS_COUNT; i++){
+            for(int j = board.get(i).size(); j < DOTS_COUNT; j++){
+                board.get(i).add(j, getRandomColor());
+            }
+        }
         invalidate();
-        moves--;
-        scores += 1;
     }
 
     private int getIndex(int number) {
@@ -213,6 +221,7 @@ public class DotsView extends View {
     //the down point and up point for the touch event
     public String getTest(PointT startP, PointT endP){
         return String.format("the start point is(%d, %d),the end point is(%d, %d)", startP.getX(), startP.getY(), endP.getX(), endP.getY());
+
     }
 
 //

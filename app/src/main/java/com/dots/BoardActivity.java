@@ -9,10 +9,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.dots.entity.PointT;
-import com.dots.view.DotsView;
+import com.dots.view.BoardView;
 
 public class BoardActivity extends AppCompatActivity{
-    private DotsView mDotsView;
+    private BoardView mBoardView;
     private TextView tvShow;
     private TextView tvStartEnd;
     private TextView tvTemp;
@@ -35,7 +35,7 @@ public class BoardActivity extends AppCompatActivity{
         tempP = new PointT();
 
         //get the dots view
-        mDotsView = (DotsView) findViewById(R.id.dotsView);
+        mBoardView = (BoardView) findViewById(R.id.dotsView);
 
         //get the text view
         tvShow = findViewById(R.id.tv_condition);
@@ -43,11 +43,11 @@ public class BoardActivity extends AppCompatActivity{
         tvTemp = findViewById(R.id.tv_temp_points);
 
         //show the initial game condition
-        tvShow.setText(mDotsView.getMessage());
+        tvShow.setText(mBoardView.getMessage());
 
         //show the position
-        tvStartEnd.setText(mDotsView.getTest(new PointT(0, 0), new PointT(0, 0)));
-        tvTemp.setText(mDotsView.getTest(new PointT(0, 0), new PointT(0, 0)));
+        tvStartEnd.setText(mBoardView.getTest(new PointT(0, 0), new PointT(0, 0)));
+        tvTemp.setText(mBoardView.getTest(new PointT(0, 0), new PointT(0, 0)));
 
 //        findViewById(R.id.btn_swap_color).setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -57,7 +57,7 @@ public class BoardActivity extends AppCompatActivity{
 //            }
 //        });
 
-        mDotsView.setOnTouchListener(new View.OnTouchListener() {
+        mBoardView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 //set the first touch point as the start point
@@ -78,17 +78,17 @@ public class BoardActivity extends AppCompatActivity{
                     endP.setX((int) motionEvent.getX());
                     endP.setY((int) motionEvent.getY());
                     //update the dots colors
-                    if(mDotsView.isRemovable(startP, endP)){
-                        mDotsView.updateView();
+                    if(mBoardView.remove(startP, endP)){
+                        mBoardView.updateView();
                         //update the scores
-                        tvShow.setText(mDotsView.getMessage());
-                        tvStartEnd.setText(mDotsView.getTest(startP, endP));
+                        tvShow.setText(mBoardView.getMessage());
+                        tvStartEnd.setText(mBoardView.getTest(startP, endP));
 
                     }
                 }
                 tempP.setX((int) motionEvent.getX());
                 tempP.setY((int) motionEvent.getY());
-                tvTemp.setText(mDotsView.getRC(startP, tempP));
+                tvTemp.setText(mBoardView.getRC(startP, tempP));
                 return true;
             }
 
