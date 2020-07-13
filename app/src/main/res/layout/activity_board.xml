@@ -32,20 +32,31 @@
 />
     </LinearLayout>
     
-    <Button
-        android:id="@+id/btn_swap_color"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="SWAP color"/>
+<!--    <Button-->
+<!--        android:id="@+id/btn_swap_color"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:text="SWAP color"/>-->
 
     <TextView
-        android:id="@+id/tv_test"
+        android:id="@+id/tv_start_end_point"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
+        android:layout_marginBottom="10dp"
         android:layout_gravity="center"
         android:layout_marginTop="30dp"
-        android:text="test"
+        android:text="start and end point"
+        android:textSize="18sp"
+        android:background="@android:color/white"/>
+
+    <TextView
+        android:id="@+id/tv_temp_points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="30dp"
+        android:text="temp points"
         android:textSize="18sp"
         android:background="@android:color/white"/>
 

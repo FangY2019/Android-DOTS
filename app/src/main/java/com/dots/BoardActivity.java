@@ -14,12 +14,14 @@ import com.dots.view.DotsView;
 public class BoardActivity extends AppCompatActivity{
     private DotsView mDotsView;
     private TextView tvShow;
-    private TextView tvTest;
+    private TextView tvStartEnd;
+    private TextView tvTemp;
 
-    private int x1, x2, y1, y2;
+//    private int x1, x2, y1, y2;
 
     private PointT startP;
     private PointT endP;
+    private PointT tempP;
 
     private boolean removeable;
 
@@ -28,27 +30,32 @@ public class BoardActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
 
-        mDotsView = (DotsView) findViewById(R.id.dotsView);
-        //show the game condition
-        tvShow = findViewById(R.id.tv_condition);
-        tvShow.setText(mDotsView.getMessage());
-
         startP = new PointT();
         endP = new PointT();
+        tempP = new PointT();
+
+        //get the dots view
+        mDotsView = (DotsView) findViewById(R.id.dotsView);
+
+        //get the text view
+        tvShow = findViewById(R.id.tv_condition);
+        tvStartEnd = findViewById(R.id.tv_start_end_point);
+        tvTemp = findViewById(R.id.tv_temp_points);
+
+        //show the initial game condition
+        tvShow.setText(mDotsView.getMessage());
 
         //show the position
-        tvTest = findViewById(R.id.tv_test);
-        tvTest.setText(mDotsView.getTest(new PointT(0, 0), new PointT(0, 0)));
-//        tvTest.setText(mDotsView.getTest(0, 0, 0, 0));
+        tvStartEnd.setText(mDotsView.getTest(new PointT(0, 0), new PointT(0, 0)));
+        tvTemp.setText(mDotsView.getTest(new PointT(0, 0), new PointT(0, 0)));
 
-
-        findViewById(R.id.btn_swap_color).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mDotsView.swapColor();
-                tvShow.setText(mDotsView.getMessage());
-            }
-        });
+//        findViewById(R.id.btn_swap_color).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                mDotsView.swapColor();
+//                tvShow.setText(mDotsView.getMessage());
+//            }
+//        });
 
         mDotsView.setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -75,9 +82,13 @@ public class BoardActivity extends AppCompatActivity{
                         mDotsView.updateView();
                         //update the scores
                         tvShow.setText(mDotsView.getMessage());
-                        tvTest.setText(mDotsView.getTest(startP, endP));
+                        tvStartEnd.setText(mDotsView.getTest(startP, endP));
+
                     }
                 }
+                tempP.setX((int) motionEvent.getX());
+                tempP.setY((int) motionEvent.getY());
+                tvTemp.setText(mDotsView.getRC(startP, tempP));
                 return true;
             }
 
