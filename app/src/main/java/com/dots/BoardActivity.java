@@ -83,12 +83,14 @@ public class BoardActivity extends AppCompatActivity{
                         //update the scores
                         tvShow.setText(mBoardView.getMessage());
                         tvStartEnd.setText(mBoardView.getTest(startP, endP));
+                        mBoardView.setLineVisible();
 
                     }
                 }
                 tempP.setX((int) motionEvent.getX());
                 tempP.setY((int) motionEvent.getY());
                 tvTemp.setText(mBoardView.getRC(startP, tempP));
+                mBoardView.drawIndicator(startP, tempP);
                 return true;
             }
 

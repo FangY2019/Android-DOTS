@@ -19,8 +19,8 @@ import java.util.Random;
 public class BoardView extends View {
     //dots
     private final int DOTS_COUNT = 6;
-    private final int DOTS_SIZE = 100;
-    private final int DOTS_SPACE = 50;
+    private final int DOTS_SIZE = 80;
+    private final int DOTS_SPACE = 70;
 
 
     private ArrayList<ArrayList<Integer>> board;
@@ -31,6 +31,8 @@ public class BoardView extends View {
     private boolean removable;
 
 
+
+
     private int[][] clickableAreas;
     private Paint mPaint;
 
@@ -38,11 +40,18 @@ public class BoardView extends View {
     private boolean mHorizontal;
     private boolean mVertical;
 
+
     //line
     private final int LINE_WIDTH = 2;
     private boolean mDotClickEnable;
     private boolean mIndicatorDragEnable;
     private boolean mTouchEnable;
+
+    private int startRow;
+    private int startColum;
+    private int endRow;
+    private int endColum;
+    private boolean lineVisible;
 
 
 
@@ -111,6 +120,7 @@ public class BoardView extends View {
     }
 
     public void updateView() {
+        lineVisible = false;
         for(int i = 0; i < DOTS_COUNT; i++){
             for(int j = board.get(i).size(); j < DOTS_COUNT; j++){
                 board.get(i).add(j, getRandomColor());
@@ -231,7 +241,11 @@ public class BoardView extends View {
 
     @Override
     protected void onDraw(Canvas canvas){
-        for(int i = 0; i < DOTS_COUNT; i++){
+        if(lineVisible){
+            drawLine(canvas);
+            drawIndicator(canvas);
+        }
+         for(int i = 0; i < DOTS_COUNT; i++){
             for(int j = 0; j < DOTS_COUNT; j++){
                 float cx = DOTS_SIZE/2 + (DOTS_SIZE + DOTS_SPACE) * j;
                 float cy = DOTS_SIZE/2 + (DOTS_SIZE + DOTS_SPACE) * i;
@@ -241,6 +255,33 @@ public class BoardView extends View {
                 clickableAreas[i * DOTS_COUNT + j][1] = (int) cy;
             }
         }
+
+
+    }
+
+    public void setLineVisible() {
+        this.lineVisible = false;
+    }
+
+    private void drawIndicator(Canvas canvas) {
+        mPaint.setColor(Color.rgb(255,255,0));
+        if(mHorizontal){
+            for(int j = startColum; j < endColum + 1; j++){
+                canvas.drawCircle(clickableAreas[startRow * DOTS_COUNT + j][0], clickableAreas[startRow * DOTS_COUNT + j][1], DOTS_SIZE/2 + 20, mPaint);
+            }
+        }
+    }
+
+    //draw the lines for the touch dots if they are validate connect
+    private void drawLine(Canvas canvas){
+        mPaint.setColor(Color.rgb(255,255,0));
+        if(mHorizontal){
+            int top = clickableAreas[startRow * DOTS_COUNT][1] - 30;
+            int bottom = clickableAreas[startRow * DOTS_COUNT][1] + 30;
+            int left = clickableAreas[startColum][0];
+            int right = clickableAreas[endColum][0];
+            canvas.drawRect(left, top, right, bottom, mPaint);
+        }
     }
 
 
@@ -248,7 +289,20 @@ public class BoardView extends View {
         int x = new Random().nextInt(4);
         if(x == 1) return Color.RED;
         if(x == 2 ) return Color.GREEN;
-        if(x == 3) return Color.YELLOW;
+        if(x == 3) return Color.rgb(255, 0, 255);
         else return Color.BLUE;
+    }
+
+    public void drawIndicator(PointT startP, PointT endP){
+        if(validateConnective(startP, endP)) {
+            lineVisible = true;
+            startRow = getIndex(startP.getY());
+            startColum = getIndex(startP.getX());
+            endRow = getIndex(endP.getY());
+            endColum = getIndex(endP.getX());
+            invalidate();
+        }else{
+            lineVisible = false;
+        }
     }
 }
