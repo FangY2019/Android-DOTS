@@ -35,6 +35,7 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/btn_timed"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_margin="20dp"
@@ -59,6 +60,7 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/btn_moves"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_margin="20dp"
@@ -94,6 +96,7 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/btn_endless"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_margin="20dp"
@@ -117,6 +120,7 @@
             android:orientation="vertical">
 
             <Button
+                android:id="@+id/btn_levels"
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_margin="20dp"
