@@ -34,14 +34,24 @@
             android:layout_width="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_timed"
-                android:layout_width="80dp"
+            <LinearLayout
+                android:layout_gravity="center"
                 android:layout_height="80dp"
+                android:layout_width="80dp"
                 android:layout_margin="20dp"
-                android:background="@drawable/dot"
-                android:backgroundTint="@color/red"
-                />
+                android:orientation="vertical"
+                android:background="@drawable/background_circle"
+                android:backgroundTint="@color/red">
+
+                <Button
+                    android:id="@+id/btn_timed"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/icon_timed"/>                    />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -59,14 +69,24 @@
             android:layout_width="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_moves"
-                android:layout_width="80dp"
+            <LinearLayout
+                android:layout_gravity="center"
                 android:layout_height="80dp"
+                android:layout_width="80dp"
                 android:layout_margin="20dp"
-                android:background="@drawable/dot"
-                android:backgroundTint="@color/blue"
-                />
+                android:orientation="vertical"
+                android:background="@drawable/background_circle"
+                android:backgroundTint="@color/green">
+
+                <Button
+                    android:id="@+id/btn_moves"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/icon_moves"/>                    />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -77,9 +97,6 @@
                 android:textFontWeight="@android:integer/config_mediumAnimTime"/>                    />
         </LinearLayout>
     </LinearLayout>
-
-
-
 
     <!--  Endless and Levels mode  -->
     <LinearLayout
@@ -95,14 +112,24 @@
             android:layout_width="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_endless"
-                android:layout_width="80dp"
+            <LinearLayout
+                android:layout_gravity="center"
                 android:layout_height="80dp"
+                android:layout_width="80dp"
                 android:layout_margin="20dp"
-                android:background="@drawable/dot"
-                android:backgroundTint="@color/green"
-                />
+                android:orientation="vertical"
+                android:background="@drawable/background_circle"
+                android:backgroundTint="@color/blue">
+
+                <Button
+                    android:id="@+id/btn_endless"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/icon_endless"/>                    />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -112,21 +139,31 @@
                 android:textSize="16sp"
                 android:textFontWeight="@android:integer/config_mediumAnimTime"/>                    />
         </LinearLayout>
-        <!--            Levels Mode           -->
+        <!--            Levels Levels           -->
         <LinearLayout
             android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:layout_width="wrap_content"
             android:orientation="vertical">
 
-            <Button
-                android:id="@+id/btn_levels"
-                android:layout_width="80dp"
+            <LinearLayout
+                android:layout_gravity="center"
                 android:layout_height="80dp"
+                android:layout_width="80dp"
                 android:layout_margin="20dp"
-                android:background="@drawable/dot"
-                android:backgroundTint="@color/orange"
-                />
+                android:orientation="vertical"
+                android:background="@drawable/background_circle"
+                android:backgroundTint="@color/purple">
+
+                <Button
+                    android:id="@+id/btn_levels"
+                    android:layout_width="60dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/icon_level"/>                    />
+
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -137,6 +174,8 @@
                 android:textFontWeight="@android:integer/config_mediumAnimTime"/>                    />
         </LinearLayout>
     </LinearLayout>
+
+
 
 
 </LinearLayout>

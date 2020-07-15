@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="red">#f44336</color>
-    <color name="green">#00e676</color>
-    <color name="blue">#2196f3</color>
-    <color name="orange">#ff6d00</color>
-    <color name="purple">#a040fb</color>
+    <color name="red">#ff1a1a</color>
+    <color name="green">#00b33c</color>
+    <color name="blue">#00ffff</color>
+    <color name="purple">#e040fb</color>
+    <color name="orange">#ff9100</color>
+    <color name="btn_blue">#29b6f6</color>
+    <color name="btn_gray">#e0e0e0</color>
+
+
 </resources>

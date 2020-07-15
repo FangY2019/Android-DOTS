@@ -11,63 +11,61 @@
         android:id="@+id/tv_welcome"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="40dp"
         android:layout_gravity="center"
         android:layout_marginTop="200dp"
+        android:layout_marginBottom="40dp"
+        android:background="@android:color/white"
         android:text="Welcome to DOTS!"
-        android:textSize="28dp"
         android:textFontWeight="@android:integer/config_mediumAnimTime"
-        android:background="@android:color/white"/>
-    <LinearLayout
-        android:layout_gravity="center"
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:orientation="vertical">
+        android:textSize="28dp" />
 
-        <LinearLayout
-            android:layout_gravity="center"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:orientation="vertical"
+        android:background="@drawable/background_rectangle">
+
+
+        <LinearLayout android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_gravity="center"
             android:orientation="horizontal">
 
             <Button
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
-                android:background="@drawable/dot"
-                android:backgroundTint="@color/red"
-            />
+                android:background="@drawable/background_circle"
+                android:backgroundTint="@color/red" />
 
             <Button
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
-                android:background="@drawable/dot"
-                android:backgroundTint="@color/green"
-                />
+                android:background="@drawable/background_circle"
+                android:backgroundTint="@color/green" />
         </LinearLayout>
 
         <LinearLayout
-            android:layout_gravity="center"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:orientation="horizontal">
 
             <Button
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
-                android:background="@drawable/dot"
-                android:backgroundTint="@color/blue"
-                />
+                android:background="@drawable/background_circle"
+                android:backgroundTint="@color/blue" />
 
             <Button
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_margin="10dp"
-                android:background="@drawable/dot"
-                android:backgroundTint="@color/orange"
-                />
+                android:background="@drawable/background_circle"
+                android:backgroundTint="@color/purple" />
         </LinearLayout>
 
     </LinearLayout>
@@ -77,9 +75,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:layout_margin="50dp"
         android:background="@drawable/btn_selector"
-        android:padding="12dp"
-        android:layout_margin="30dp"
-        android:text="Start Game"/>
+        android:text="Start Game" />
 
 </LinearLayout>
