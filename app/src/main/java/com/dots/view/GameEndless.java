@@ -1,31 +1,26 @@
 package com.dots.view;
 
-import com.dots.entity.Constants;
-
-public class GameMoves implements GameMode{
-    private int Maxmove;
+public class GameEndless implements GameMode{
     private int scores;
 
-    public GameMoves() {
-        Maxmove = Constants.OBJECT_MOVE;
+    public GameEndless() {
         scores = 0;
     }
 
     @Override
     public boolean getGameStatus(int score, int color, int moves) {
         scores += score;
-        return Maxmove - moves >0;
+        return true;
     }
-
 
     @Override
     public String message(int moves) {
-        return String.format("Moves: %d     Scores: %s" , Maxmove-moves, scores);
+        return String.format("Move: %d     Scores: %s" , moves, scores);
     }
-
 
     @Override
     public String endMessage() {
         return String.format("Your Score: %d", scores);
     }
+
 }

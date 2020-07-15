@@ -338,10 +338,10 @@ public class BoardView extends View{
     //generate random colors
     private int getRandomColor(){
         int x = new Random().nextInt(5);
-        if(x == 1) return Color.rgb(255, 26, 26);
-        if(x == 2 ) return Color.rgb(0, 179, 60);
-        if(x == 3) return Color.rgb(255, 0, 255);
-        if(x == 4) return Color.rgb(0, 255, 255);
-        else return Color.rgb(0, 0, 255);
+        if(x == 1) return Color.rgb(255, 26, 26);//red
+        if(x == 2 ) return Color.rgb(0, 179, 60);//green
+        if(x == 3) return Color.rgb(255, 0, 255);//purple
+        if(x == 4) return Color.rgb(0, 255, 255);//sky blue
+        else return Color.rgb(0, 0, 255);//blue
     }
 }

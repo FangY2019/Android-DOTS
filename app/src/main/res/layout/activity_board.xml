@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="40dp"
         android:layout_gravity="center"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="70dp"
         android:text="result"
         android:textSize="28sp"
         android:background="@android:color/white"/>
@@ -32,11 +32,13 @@
 />
     </LinearLayout>
     
-<!--    <Button-->
-<!--        android:id="@+id/btn_swap_color"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="SWAP color"/>-->
+    <Button
+        android:id="@+id/btn_more_games"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="More Games"
+        android:layout_gravity="center"/>
 
 <!--    <TextView-->
 <!--        android:id="@+id/tv_game_result"-->

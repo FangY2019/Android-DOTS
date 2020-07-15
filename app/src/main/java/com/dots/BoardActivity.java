@@ -11,10 +11,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.dots.entity.PointT;
 import com.dots.view.BoardView;
+import com.dots.view.GameEndless;
+import com.dots.view.GameLevels;
 import com.dots.view.GameMoves;
+import com.dots.view.GameTimed;
 
 public class BoardActivity extends AppCompatActivity{
     private BoardView mBoardView;
+    private String gameMode;
     private TextView tvShow;
     private PointT startP;
     private PointT endP;
@@ -24,6 +28,7 @@ public class BoardActivity extends AppCompatActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_board);
+//        gameMode = "";
 
         //get the dots view
         mBoardView = (BoardView) findViewById(R.id.dotsView);
@@ -74,19 +79,36 @@ public class BoardActivity extends AppCompatActivity{
                 Intent intent = new Intent();
                 intent.setClass(getApplicationContext(), ResultActivity.class);
                 intent.putExtra("endMessage", mBoardView.getEndMessage());
+
+                //send the game mode to result activity
+                intent.putExtra("gameMode", gameMode);
                 startActivity(intent);
                 return false;
             }
         });
+
+        findViewById(R.id.btn_more_games).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent();
+                intent.setClass(getApplicationContext(), ModeActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 
+    //get game mode from Mode activity or result activity
     private void setGameMode(){
         Intent intent = getIntent();
-        String gameMode = intent.getStringExtra("gameMode");
+        gameMode = intent.getStringExtra("gameMode");
         if(gameMode.equals("moves")){
             mBoardView.setGameMode(new GameMoves());
+        }else if(gameMode.equals("endless")){
+            mBoardView.setGameMode(new GameEndless());
+        }else if(gameMode.equals("timed")){
+            mBoardView.setGameMode(new GameTimed());
+        }else if(gameMode.equals("levels")){
+            mBoardView.setGameMode(new GameLevels());
         }
-
-
     }
 }

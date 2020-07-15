@@ -1,7 +1,7 @@
 package com.dots.view;
 
 public interface GameMode {
-    public boolean getGameStatus(int score, int colour, int moves);
+    public boolean getGameStatus(int score, int color, int moves);
 
     public String message(int moves);
 
