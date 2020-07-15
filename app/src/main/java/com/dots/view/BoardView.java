@@ -12,26 +12,25 @@ import androidx.annotation.Nullable;
 
 import com.dots.entity.PointT;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
-public class BoardView extends View {
+public class BoardView extends View{
     //dots
+    private final int ORIGINAL_POING = 100;
     private final int DOTS_COUNT = 6;
     private final int DOTS_SIZE = 80;
-    private final int DOTS_SPACE = 70;
+    private final int DOTS_SPACE = 80;
 
 
     private ArrayList<ArrayList<Integer>> board;
+    private GameMode gameMode;
     private int moves;
-    private boolean status;
-
+    private boolean gameStatus;
     private int scores;
     private boolean removable;
-
-
-
 
     private int[][] clickableAreas;
     private Paint mPaint;
@@ -40,22 +39,13 @@ public class BoardView extends View {
     private boolean mHorizontal;
     private boolean mVertical;
 
-
-    //line
-    private final int LINE_WIDTH = 2;
-    private boolean mDotClickEnable;
-    private boolean mIndicatorDragEnable;
-    private boolean mTouchEnable;
-
+    //variables for the indicators
     private int startRow;
     private int startColum;
     private int endRow;
     private int endColum;
     private boolean lineVisible;
-
-
-
-
+    private boolean firstDotVisible;
 
     public BoardView(Context context) {
         super(context);
@@ -82,6 +72,7 @@ public class BoardView extends View {
         mPaint = new Paint();
         board = new ArrayList<ArrayList<Integer>>();
         moves = 0;
+        gameStatus = true;
         scores = 0;
         for (int i = 0; i < DOTS_COUNT; i++) {
             ArrayList<Integer> list = new ArrayList<Integer>();
@@ -92,8 +83,33 @@ public class BoardView extends View {
         }
     }
 
-    private int getColor(int i, int j) {
-        return board.get(j).get(DOTS_COUNT - 1 - i);
+    @Override
+    protected void onDraw(Canvas canvas){
+        if(firstDotVisible){
+            drawFirstDotIndicator(canvas);
+        }
+        if(lineVisible){
+            drawLineIndicator(canvas);
+            drawDotIndicator(canvas);
+        }
+        for(int i = 0; i < DOTS_COUNT; i++){
+            for(int j = 0; j < DOTS_COUNT; j++){
+                float cx = ORIGINAL_POING + DOTS_SIZE/2 + (DOTS_SIZE + DOTS_SPACE) * j;
+                float cy = ORIGINAL_POING + DOTS_SIZE/2 + (DOTS_SIZE + DOTS_SPACE) * i;
+                mPaint.setColor(getColor(i, j));
+                canvas.drawCircle(cx, cy, DOTS_SIZE/2, mPaint);
+                clickableAreas[i * DOTS_COUNT + j][0] = (int) cx;
+                clickableAreas[i * DOTS_COUNT + j][1] = (int) cy;
+            }
+        }
+    }
+
+    public boolean getGameStatus(){
+        return this.gameStatus;
+    }
+
+    public void setGameMode(GameMode gameMode){
+        this.gameMode = gameMode;
     }
 
     public boolean remove(PointT startP, PointT endP) {
@@ -110,6 +126,7 @@ public class BoardView extends View {
                     board.get(i).removeAll(Arrays.asList(Color.GRAY));
                 }
                 moves++;
+                this.gameStatus = gameMode.getGameStatus(removeSize, color, moves);
                 scores += removeSize;
                 return true;
             }
@@ -121,6 +138,7 @@ public class BoardView extends View {
 
     public void updateView() {
         lineVisible = false;
+        firstDotVisible = false;
         for(int i = 0; i < DOTS_COUNT; i++){
             for(int j = board.get(i).size(); j < DOTS_COUNT; j++){
                 board.get(i).add(j, getRandomColor());
@@ -129,20 +147,47 @@ public class BoardView extends View {
         invalidate();
     }
 
+    //draw lines and dots when the dots are valid to remove
+    public void drawIndicator(PointT startP, PointT endP){
+        startRow = getIndex(startP.getY());
+        startColum = getIndex(startP.getX());
+        endRow = getIndex(endP.getY());
+        endColum = getIndex(endP.getX());
+        if(startRow == endRow && startColum == endColum){
+            firstDotVisible = true;
+            invalidate();
+        }else{
+            firstDotVisible = false;
+        }
+        if(validateConnective(startP, endP)) {
+            lineVisible = true;
+            invalidate();
+        }else{
+            lineVisible = false;
+        }
+    }
+
+    public void setIndicatorVisible() {
+        this.lineVisible = false;
+        this.firstDotVisible = false;
+    }
+
+    //transfer the coordinate to the index of row or column
     private int getIndex(int number) {
-        if (number >= 0 && number < 150) {
+        if (number >= ORIGINAL_POING && number < ORIGINAL_POING + DOTS_SIZE + DOTS_SPACE) {
             return 0;
-        } else if (number >= 150 && number < 300) {
+        } else if (number >= ORIGINAL_POING + DOTS_SIZE + DOTS_SPACE && number < ORIGINAL_POING + (DOTS_SIZE + DOTS_SPACE) * 2) {
             return 1;
-        } else if (number >= 300 && number < 450) {
+        } else if (number >= ORIGINAL_POING + (DOTS_SIZE + DOTS_SPACE) * 2 && number < ORIGINAL_POING + (DOTS_SIZE + DOTS_SPACE) * 3) {
             return 2;
-        } else if (number >= 450 && number < 600) {
+        } else if (number >= ORIGINAL_POING + (DOTS_SIZE + DOTS_SPACE) * 3 && number < ORIGINAL_POING + (DOTS_SIZE + DOTS_SPACE) * 4) {
             return 3;
-        } else if (number >= 600 && number < 750) {
+        } else if (number >= ORIGINAL_POING + (DOTS_SIZE + DOTS_SPACE) * 4 && number < ORIGINAL_POING + (DOTS_SIZE + DOTS_SPACE) * 5) {
             return 4;
         } else return 5;
     }
 
+    //determines the touch dots are valid to remove when they are in the sam row or column and their colors are the same
     private boolean validateConnective(PointT startP, PointT endP) {
         int r, c;
         c = getIndex(startP.getX());
@@ -174,6 +219,7 @@ public class BoardView extends View {
         return false;
     }
 
+    //mark the valid touch dots as a specific color
     private int markColor(PointT startP, PointT endP){
         int color = 0;
         //if the dots in the horizontal direction
@@ -199,13 +245,17 @@ public class BoardView extends View {
         return color;
     }
 
-    //if the touch point is inside of the view area
+    private int getColor(int i, int j) {
+        return board.get(j).get(DOTS_COUNT - 1 - i);
+    }
+
+    //if the touched dot is inside of the view area
     private boolean inSideOfView(PointT point){
-        int max = DOTS_COUNT * DOTS_SIZE + (DOTS_COUNT - 1) * DOTS_SPACE;
+        int max = ORIGINAL_POING + DOTS_COUNT * DOTS_SIZE + (DOTS_COUNT - 1) * DOTS_SPACE;
         return (point.getX() > 0 && point.getX() <= max && point.getY() > 0 && point.getY() <= max);
     }
 
-    //if two points in the horizontal direction or vertical direction
+    //determines if the dots between the two points are in the same row or column
     private boolean isSameLine(PointT startP, PointT endP){
         mHorizontal = false;
         mVertical = false;
@@ -225,7 +275,13 @@ public class BoardView extends View {
 
     //the result of each remove action
     public String getMessage(){
-        return String.format("Moves: %d     Scores: %s" , moves, scores);
+        return this.gameMode.message(this.moves);
+
+//        return String.format("Moves: %d     Scores: %s" , moves, scores);
+    }
+
+    public String getEndMessage(){
+        return this.gameMode.endMessage();
     }
 
     //the down point and up point for the touch event
@@ -234,75 +290,58 @@ public class BoardView extends View {
 
     }
 
-//
-//    public String getTest(int x1,int y1,int x2, int y2){
-//        return String.format("the start point is(%d, %d),the end point is(%d, %d)", x1, y1, x2, y2);
-//    }
 
-    @Override
-    protected void onDraw(Canvas canvas){
-        if(lineVisible){
-            drawLine(canvas);
-            drawIndicator(canvas);
-        }
-         for(int i = 0; i < DOTS_COUNT; i++){
-            for(int j = 0; j < DOTS_COUNT; j++){
-                float cx = DOTS_SIZE/2 + (DOTS_SIZE + DOTS_SPACE) * j;
-                float cy = DOTS_SIZE/2 + (DOTS_SIZE + DOTS_SPACE) * i;
-                mPaint.setColor(getColor(i, j));
-                canvas.drawCircle(cx, cy, DOTS_SIZE/2, mPaint);
-                clickableAreas[i * DOTS_COUNT + j][0] = (int) cx;
-                clickableAreas[i * DOTS_COUNT + j][1] = (int) cy;
-            }
-        }
-
-
-    }
-
-    public void setLineVisible() {
-        this.lineVisible = false;
-    }
-
-    private void drawIndicator(Canvas canvas) {
+    //draw first indicated dots when touch the valid dots
+    private void drawFirstDotIndicator(Canvas canvas) {
         mPaint.setColor(Color.rgb(255,255,0));
-        if(mHorizontal){
+        if(startColum ==endColum && startRow == endRow){
+            canvas.drawCircle(clickableAreas[startRow * DOTS_COUNT + startColum][0], clickableAreas[startRow * DOTS_COUNT + startColum][1], DOTS_SIZE/2 + 20, mPaint);
+        }
+    }
+
+
+    //draw indicated dots when touch the valid dots
+    private void drawDotIndicator(Canvas canvas) {
+        mPaint.setColor(Color.rgb(255,255,0));
+        if(startRow == endRow){
             for(int j = startColum; j < endColum + 1; j++){
                 canvas.drawCircle(clickableAreas[startRow * DOTS_COUNT + j][0], clickableAreas[startRow * DOTS_COUNT + j][1], DOTS_SIZE/2 + 20, mPaint);
+            }
+        }
+        if(startColum == endColum){
+            for(int i = startRow; i < endRow + 1; i++){
+                canvas.drawCircle(clickableAreas[i * DOTS_COUNT + startColum][0], clickableAreas[i * DOTS_COUNT + startColum][1], DOTS_SIZE/2 + 20, mPaint);
             }
         }
     }
 
     //draw the lines for the touch dots if they are validate connect
-    private void drawLine(Canvas canvas){
+    private void drawLineIndicator(Canvas canvas){
         mPaint.setColor(Color.rgb(255,255,0));
+        int top = 0, bottom = 0, left = 0, right = 0;
         if(mHorizontal){
-            int top = clickableAreas[startRow * DOTS_COUNT][1] - 30;
-            int bottom = clickableAreas[startRow * DOTS_COUNT][1] + 30;
-            int left = clickableAreas[startColum][0];
-            int right = clickableAreas[endColum][0];
-            canvas.drawRect(left, top, right, bottom, mPaint);
+            top = clickableAreas[startRow * DOTS_COUNT][1] - 30;
+            bottom = clickableAreas[startRow * DOTS_COUNT][1] + 30;
+            left = clickableAreas[startColum][0];
+            right = clickableAreas[endColum][0];
+
         }
+        if(mVertical){
+            top = clickableAreas[startRow * DOTS_COUNT][1];
+            bottom = clickableAreas[endRow * DOTS_COUNT][1];
+            left = clickableAreas[startColum][0] - 30;
+            right = clickableAreas[startColum][0] + 30;
+        }
+        canvas.drawRect(left, top, right, bottom, mPaint);
     }
 
-
+    //generate random colors
     private int getRandomColor(){
-        int x = new Random().nextInt(4);
-        if(x == 1) return Color.RED;
-        if(x == 2 ) return Color.GREEN;
+        int x = new Random().nextInt(5);
+        if(x == 1) return Color.rgb(255, 26, 26);
+        if(x == 2 ) return Color.rgb(0, 179, 60);
         if(x == 3) return Color.rgb(255, 0, 255);
-        else return Color.BLUE;
-    }
-
-    public void drawIndicator(PointT startP, PointT endP){
-        if(validateConnective(startP, endP)) {
-            lineVisible = true;
-            startRow = getIndex(startP.getY());
-            startColum = getIndex(startP.getX());
-            endRow = getIndex(endP.getY());
-            endColum = getIndex(endP.getX());
-            invalidate();
-        }else{
-            lineVisible = false;
-        }
+        if(x == 4) return Color.rgb(0, 255, 255);
+        else return Color.rgb(0, 0, 255);
     }
 }

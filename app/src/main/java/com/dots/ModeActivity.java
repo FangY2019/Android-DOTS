@@ -27,6 +27,20 @@ public class ModeActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         Intent intent = new Intent();
         intent.setClass(getApplicationContext(), BoardActivity.class);
+        switch(view.getId()){
+            case R.id.btn_timed:
+                intent.putExtra("gameMode", "timed");
+                break;
+            case R.id.btn_moves:
+                intent.putExtra("gameMode", "moves");
+                break;
+            case R.id.btn_endless:
+                intent.putExtra("gameMode", "endless");
+                break;
+            case R.id.btn_levels:
+                intent.putExtra("gameMode", "levels");
+                break;
+        }
         startActivity(intent);
     }
 }

@@ -20,15 +20,15 @@
         android:background="@android:color/white"/>
 
     <LinearLayout
-        android:layout_width="330dp"
-        android:layout_height="330dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_gravity="center">
 
     <com.dots.view.BoardView
         android:id="@+id/dotsView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="380dp"
+        android:layout_height="380dp"/>
 />
     </LinearLayout>
     
@@ -38,31 +38,16 @@
 <!--        android:layout_height="wrap_content"-->
 <!--        android:text="SWAP color"/>-->
 
-    <TextView
-        android:id="@+id/tv_start_end_point"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:text="start and end point"
-        android:textSize="18sp"
-        android:background="@android:color/white"/>
-
-    <TextView
-        android:id="@+id/tv_temp_points"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="30dp"
-        android:text="temp points"
-        android:textSize="18sp"
-        android:background="@android:color/white"/>
-
-
-
-
+<!--    <TextView-->
+<!--        android:id="@+id/tv_game_result"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginBottom="10dp"-->
+<!--        android:layout_gravity="center"-->
+<!--        android:layout_marginTop="30dp"-->
+<!--        android:text=""-->
+<!--        android:textSize="18sp"-->
+<!--        android:background="@android:color/white"/>-->
 
 
 </LinearLayout>
